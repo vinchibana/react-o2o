@@ -1,32 +1,26 @@
 import React from "react";
-import { NavBar} from "antd-mobile";
 import "./index.scss";
-import axios from "axios";
-
-export default class CityList extends React.Component {
-
+import { NavBar } from "antd-mobile";
+export default class Map extends React.Component {
   componentDidMount() {
-    this.getCityList()
-  }
-
-  async getCityList() {
-    const res = await axios.get('http://localhost:8080/area/city?level=1')
-    this.setState({
-
-    })
+    const map = new AMap.Map("container", {
+      zoom: 14,
+    });
   }
 
   render() {
     return (
-      <div className="citylist">
+      <div className="map">
         <NavBar
           className="navbar"
           mode="light"
           icon={<i className="iconfont icon-back"></i>}
           onLeftClick={() => this.props.history.go(-1)}
         >
-          城市选择
+          地图找房
         </NavBar>
+
+        <div id="container"></div>
       </div>
     );
   }

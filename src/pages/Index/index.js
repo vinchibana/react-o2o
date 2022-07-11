@@ -24,7 +24,7 @@ const nav = [
     id: 3,
     img: Nav3,
     title: "地图找房",
-    path: "/home/map",
+    path: "/map",
   },
   {
     id: 4,
@@ -39,6 +39,7 @@ export default class Index extends React.Component {
     data: [1, 2, 3],
     groups: [],
     news: [],
+    cityName: "威海",
     imgHeight: 212,
   };
 
@@ -71,6 +72,21 @@ export default class Index extends React.Component {
     });
   }
 
+  getCityName() {
+    AMap.plugin("AMap.CitySearch", () => {
+      const citySearch = new AMap.CitySearch();
+      citySearch.getLocalCity(async (status, result) => {
+        if (status === "complete" && result.info === "OK") {
+          const res = await axios.get(
+            `http://localhost:8080/area/info?name=${result.city}`
+          );
+          this.setState({
+            cityName: res.data.body.label,
+          });
+        }
+      });
+    });
+  }
   renderSwiper() {
     return this.state.data.map((item) => (
       <a
@@ -129,10 +145,12 @@ export default class Index extends React.Component {
       </div>
     ));
   }
+
   componentDidMount() {
     this.getSwipers();
     this.getGroups();
     this.getNews();
+    this.getCityName();
   }
 
   render() {
@@ -142,8 +160,30 @@ export default class Index extends React.Component {
           <Carousel autoplay={true} infinite>
             {this.renderSwiper()}
           </Carousel>
+
+          {/* 搜索框 */}
+          <Flex className="search-box">
+            <Flex className="search">
+              <div
+                className="location"
+                onClick={() => this.props.history.push("/citylist")}
+              >
+                <span className="name">{this.state.cityName}</span>
+                <i className="iconfont icon-arrow"></i>
+              </div>
+              <div className="form">
+                <i className="iconfont icon-search"></i>
+                <span className="text">请输入小区或地址</span>
+              </div>
+            </Flex>
+            <i
+              className="iconfont icon-map"
+              onClick={() => this.props.history.push("/map")}
+            ></i>
+          </Flex>
         </div>
 
+        {/* 导航栏 */}
         <Flex className="nav">{this.renderNav()}</Flex>
 
         <div className="group">
