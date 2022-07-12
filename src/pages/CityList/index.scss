@@ -2,9 +2,12 @@
   height: 100%;
   padding-top: 45px;
 
-  .navbar {
+  // 顶部导航栏
+  .am-navbar {
+    // background-color: skyblue;
     margin-top: -45px;
   }
+
   // 城市列表
   .city {
     .title {
@@ -54,3 +57,9 @@
     }
   }
 }
+
+// 测试样式：
+// .test {
+//   color: red;
+//   font-size: 20px;
+// }

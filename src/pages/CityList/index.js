@@ -38,6 +38,7 @@ const formatCityIndex = (letter) => {
 };
 
 export default class CityList extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
