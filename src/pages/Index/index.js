@@ -6,6 +6,7 @@ import Nav2 from "../../assets/images/nav-2.png";
 import Nav3 from "../../assets/images/nav-3.png";
 import Nav4 from "../../assets/images/nav-4.png";
 import "./index.scss";
+import {getCurrentCity} from "../../utils";
 
 const nav = [
   {
@@ -72,21 +73,13 @@ export default class Index extends React.Component {
     });
   }
 
-  getCityName() {
-    AMap.plugin("AMap.CitySearch", () => {
-      const citySearch = new AMap.CitySearch();
-      citySearch.getLocalCity(async (status, result) => {
-        if (status === "complete" && result.info === "OK") {
-          const res = await axios.get(
-            `http://localhost:8080/area/info?name=${result.city}`
-          );
-          this.setState({
-            cityName: res.data.body.label,
-          });
-        }
-      });
-    });
+  async getCityName() {
+    const currentCity = await getCurrentCity()
+    this.setState({
+      cityName: currentCity.label
+    })
   }
+
   renderSwiper() {
     return this.state.data.map((item) => (
       <a

@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.scss";
-import { NavBar } from "antd-mobile";
+import Nav from '../../components/nav'
+
 export default class Map extends React.Component {
   componentDidMount() {
     const map = new AMap.Map("container", {
@@ -11,15 +12,7 @@ export default class Map extends React.Component {
   render() {
     return (
       <div className="map">
-        <NavBar
-          className="navbar"
-          mode="light"
-          icon={<i className="iconfont icon-back"></i>}
-          onLeftClick={() => this.props.history.go(-1)}
-        >
-          地图找房
-        </NavBar>
-
+        <Nav>地图找房</Nav>
         <div id="container"></div>
       </div>
     );
